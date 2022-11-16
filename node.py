@@ -54,6 +54,12 @@ class node:
         distance = math.sqrt((n2x-n1x)**2 + (n2y-n1y)**2)
         return distance
 
+    def getBranches(self):
+        result = 'Branches:\n'
+        for each in self.nodeBranches:
+            result += str(each) + '\n'
+        return result
+
     ### Setters ###
     #Set X Coordinate
     def setX(self, x):
@@ -86,7 +92,7 @@ class node:
         return result
 
     def strXY(self):
-        result = "Node: " + str(self.getX()) + ", " + str(self.getY())
+        result = str(self.getX()) + ", " + str(self.getY())
         return result
 
 #Debug
@@ -101,6 +107,7 @@ def main():
 
     #print(testNode.getDistance(t2))
     print(testNode.strXY())
+    print(testNode.getBranches())
 
 if __name__ == '__main__': #if running node
     main()

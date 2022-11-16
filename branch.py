@@ -31,8 +31,8 @@ class branch:
         return self.branchConnected
 
     def __str__(self):
-        result = "Branch: " + str(self.branchLen)
-        return result
+        return 'Node 1: ' + self.getN1().strXY() + ' || Node 2: ' + self.getN2().strXY() + ' || Distance: ' + str(self.getLen())
+        
     
 
 #Debug
@@ -47,6 +47,7 @@ def main():
 
     testBranch = branch(testNode, t2)
     print(testBranch.branchLen)
+    print(testBranch)
 
 if __name__ == '__main__': #if running node
     main()
