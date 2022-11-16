@@ -14,14 +14,20 @@ class node:
     numVisits = 0 #How many times the node has been visited
     nodeList = [] #List of directly connected nodes
     nodeBranches = []
+    nodeName = ''
 
-    def __init__(self,x, y, BCE):
+    def __init__(self, name, x, y, BCE):
         self.xCoord = x
         self.yCoord = y
         self.beneficialCoE = BCE
         self.nodeList = []
+        self.nodeName = name
 
     ### Getters ###
+    #Get node's name
+    def getNodeName(self):
+        return self.nodeName
+    
     #Get X Coordinate
     def getX(self):
         return self.xCoord
@@ -84,23 +90,23 @@ class node:
 
     
     def __str__(self):
-        result = "---------Node---------\nX coord:"+ str(self.getX())+ "\nY coord:"+ str(self.getY())+ "\nBeneficial CoE:"+ str(self.getBCE())+ "\nConnected Nodes: X  Y  Distance\n"
+        result = "---------Node---------\n" +  self.getNodeName() + "\nX coord:"+ str(self.getX())+ "\nY coord:"+ str(self.getY())+ "\nBeneficial CoE:"+ str(self.getBCE())+ "\nConnected Nodes: X  Y  Distance\n"
         index = 0
         for each in self.getNodeList():
-            result += "                 " + str(each.getX()) + ", " + str(each.getY()) + "  " + str(each.nodeBranches[index].getLen()) +"\n"
+            result += "          " + each.strXY() + "  " + str(each.nodeBranches[index].getLen()) +"\n"
             index += 1
         return result
 
     def strXY(self):
-        result = str(self.getX()) + ", " + str(self.getY())
+        result = self.getNodeName() + ": " + str(self.getX()) + ", " + str(self.getY())
         return result
 
 #Debug
 def main():
-    testNode = node(1,2,3)
+    testNode = node('NodeA',1,2,3)
     #print('X:', testNode.getX(),'Y:', testNode.getY(),'BCE:',testNode.getBCE())
-    t2 = node(5,5,6)
-    t3 = node(7,8,9)
+    t2 = node('NodeB',5,5,6)
+    t3 = node('NodeC',7,8,9)
     testNode.addNode(t2)
     testNode.addNode(t3)
     print(testNode)

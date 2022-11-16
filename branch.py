@@ -49,5 +49,5 @@ def main():
     #print(testBranch.branchLen)
     #print(testBranch)
 
-if __name__ == '__main__': #if running node
+if __name__ == '__main__': #if running branch
     main()
