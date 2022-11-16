@@ -46,8 +46,8 @@ def main():
     #print(testNode.getDistance(t2))
 
     testBranch = branch(testNode, t2)
-    print(testBranch.branchLen)
-    print(testBranch)
+    #print(testBranch.branchLen)
+    #print(testBranch)
 
 if __name__ == '__main__': #if running node
     main()
