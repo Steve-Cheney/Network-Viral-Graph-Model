@@ -2,7 +2,7 @@
 
 #node class
 
-import branch
+import branch as br
 import math
 
 class node:
@@ -13,7 +13,8 @@ class node:
     visitedBool = False #Whether or not the node has been visited already
     numVisits = 0 #How many times the node has been visited
     nodeList = [] #List of directly connected nodes
-    nodeBranches = [] #List of all branches connected to a node
+    nodeBranches = [] #List of all individual branches connected to a node
+    nodeBranchTuples = [] #List of branches with each node name in a tuple
     nodeName = '' #Name of the node
     nodeHealth = 1.0 #Health of the node; 1.0 is fully healthy, 0.0 is destroyed
     nodeDepreciation = 1.0 #Rate at which the node should depreciate until it is destroyed
@@ -72,6 +73,8 @@ class node:
 
     #Get the list of branches
     def getBranches(self):
+        for each in self.nodeBranches:
+            print("Branches: " + str(each))
         return self.nodeBranches
 
     #Get the health of the node
@@ -122,7 +125,12 @@ class node:
     def addNode(self, N):
         assert(type(N) is node),"Error: added object is not a node"
         self.nodeList.append(N)
-        self.nodeBranches.append(branch.branch(self,N))
+        if (((self.getNodeName(), N.getNodeName())) in self.nodeBranchTuples) or (((N.getNodeName(),self.getNodeName())) in self.nodeBranchTuples):
+            return
+        else:
+            print("Adding branch between " + N.getNodeName() + " & " + self.getNodeName())
+            self.nodeBranches.append(br.branch(self,N))
+            self.nodeBranchTuples.append(((self.getNodeName(), N.getNodeName())))
     
     #Check if 2 nodes are connected by a branch; checks full node
     def nodeConnected_Node(self, n2):
@@ -164,7 +172,7 @@ def main():
     #print(testNode.getDistance(t2))
     print(testNode.strXY())
     #print(testNode.getBranches())
-    print()
+    print(testNode.nodeBranchTuples)
 
 if __name__ == '__main__': #if running node
     main()

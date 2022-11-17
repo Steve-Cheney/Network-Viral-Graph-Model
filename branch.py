@@ -17,7 +17,7 @@ class branch:
         self.branchLen = round(n1.getDistance(n2),3)
         self.branchConnected = True
         self.branchStart = ((n1.getX(),n1.getY()))
-        self.branchStart = ((n2.getX(),n2.getY()))
+        self.branchEnd = ((n2.getX(),n2.getY()))
 
     ### Getters ###
     #Return length of branch
@@ -44,6 +44,11 @@ class branch:
     def getConnectionStatus(self):
         return self.branchConnected
     
+    #Check if branch exists
+    def checkBranchExist(self, b):
+        result = False
+        if (self.getN1().getX() == b.getX()):
+            return result
 
     def __str__(self):
         return 'Node 1: ' + self.getN1().strXY() + ' || Node 2: ' + self.getN2().strXY() + ' || Distance: ' + str(self.getLen())
