@@ -6,6 +6,8 @@ class branch:
     branchConnected = False #False if branch is not connected to 2 nodes, True if it is
     branchN1 = None #First node connected
     branchN2 = None #Second node connected
+    branchStart = None #Starting coords in tuple form
+    branchEnd = None #Ending coords in tuple form
     
     #Init function
     #Sets branch between 2 nodes
@@ -14,7 +16,9 @@ class branch:
         self.branchN2 = n2
         self.branchLen = round(n1.getDistance(n2),3)
         self.branchConnected = True
-    
+        self.branchStart = ((n1.getX(),n1.getY()))
+        self.branchStart = ((n2.getX(),n2.getY()))
+
     ### Getters ###
     #Return length of branch
     def getLen(self):
@@ -27,6 +31,14 @@ class branch:
     #Return node 2
     def getN2(self):
         return self.branchN2
+
+    #Return start coords
+    def getStart(self):
+        return self.branchStart
+
+    #Return start coords
+    def getEnd(self):
+        return self.branchEnd
 
     #Return if branch is connected
     def getConnectionStatus(self):
