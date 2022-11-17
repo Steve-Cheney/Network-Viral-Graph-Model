@@ -27,7 +27,9 @@ class virus:
     startNode = None
     virusBCE = 0.2
     usedCoords = []
-    
+    virusBranches = []
+    virusBranchTuples = []
+
     #Init function
     def __init__(self, numNodes, maxX, maxY):
         self.numNodes = numNodes
@@ -108,6 +110,22 @@ class virus:
         print("Node not found")
         return None
 
+    #Get random node in virus
+    def getRandNode(self):
+        return self.getNodes()[randrange(len(self.getNodes()))]
+
+    #Get virus' branches
+    def getVirusBranches(self):
+        return self.virusBranches
+
+    #Add branch to virus' branches
+    def addVirusBranch(self, branch):
+        self.virusBranches.append(branch)
+
+    #Add branch to virus' branches tuples list
+    def addVirusBranchTuple(self, branch):
+        self.virusBranchTuples.append(branch)
+
     #Check via a Node whether or not 2 nodes are connected in a virus
     def checkIfNodeConnected_Node(self,n1: no, n2: no):
         return n1.nodeConnected_Node(n2)
@@ -144,18 +162,22 @@ class virus:
         connectedNodes = []
         #if startNode.getNodeHealth() < 0.01:
         #    return
-        print("New Layer")
         for node in currNodes:
             if node == startNode:
                 continue
             if startNode.nodeConnected_Node(node): #if node is already connected, skip to next node
-                print(startNode.getNodeName() + " already connected to " + node.getNodeName())
+                #print(startNode.getNodeName() + " already connected to " + node.getNodeName())
                 continue
             if node.getBCE() > self.getBCELimit(): #if node is less than the beneficial CoE limit, do not branch nodes 
                 if startNode.getDistance(node) <= maxDist: #if node is more than the distance limit, do not branch nodes
-                    print("Adding node " + node.getNodeName() + " to " + startNode.getNodeName())
+                    #print("Adding node " + node.getNodeName() + " to " + startNode.getNodeName())
                     startNode.addNode(node) #Branch nodes if all params are satisfied
                     connectedNodes.append(node)
+                    if (((startNode.getNodeName(), node.getNodeName())) in self.virusBranchTuples) or (((node.getNodeName(),startNode.getNodeName())) in self.virusBranchTuples):
+                        continue
+                    else:
+                        self.addVirusBranch(startNode.getBranches()[-1])
+                        self.addVirusBranchTuple(((startNode.getNodeName(), node.getNodeName())))
                     #print(str(connectedNodes))
         return connectedNodes
 
@@ -193,45 +215,38 @@ class virus:
         return out
     '''
     def plotGraph(self):
-        plt.rcParams["figure.figsize"] = [self.getMaxX()/2, self.getMaxY()/2]
+        plt.title('Drawing virus . . .')
+        plt.rcParams["figure.figsize"] = [30, 30]
         plt.rcParams["figure.autolayout"] = True
+        plt.xlabel('X axis')
+        plt.ylabel('Y axis')
         x_values = list(map(lambda x: x[0], self.usedCoords))
         y_values = list(map(lambda x: x[1], self.usedCoords))
         plt.xlim(0,self.getMaxX()-1)
         plt.ylim(0,self.getMaxY()-1)
         plt.plot(x_values, y_values, 'bo')
         for each in self.getNodes():
-            plt.text(each.getX()-0.015, each.getY()+0.25, each.getNodeName() + ' BCE: ' + str(round(each.getBCE(),3)))
-        for each in self.getNodes():
-            print("Plotting Node " + each.getNodeName())
-            if len(each.getBranches()) > 0:                
-                for branch in each.getBranches():
-                    print("Plotting Branch: " + str(branch))
-                    plt.pause(.3)
-                    #plt.text(branch.getStart()[0]+1, branch.getStart()[1]+1, str('Dist: ' + str(round(branch.getLen()),2)))
-                    plt.plot([branch.getStart()[0],branch.getEnd()[0]],[branch.getStart()[1],branch.getEnd()[1]], 'ro', linestyle="--")
-                    print(branch.getStart()[0])
-                
-                
-        
+            plt.text(each.getX()-0.015, each.getY()-0.5, each.getNodeName())   
+            #plt.text(each.getX()-0.015, each.getY()-0.5, each.getNodeName() + ' BCE: ' + str(round(each.getBCE(),3)))             
+        for branch in self.getVirusBranches():
+            #print("Plotting Branch: " + str(branch))
+            plt.pause(.3)
+            #plt.text(branch.getStart()[0]+1, branch.getStart()[1]+1, str('Dist: ' + str(round(branch.getLen()),2)))
+            plt.plot([branch.getStart()[0],branch.getEnd()[0]],[branch.getStart()[1],branch.getEnd()[1]], 'ro', linestyle="--")
+            #print(branch.getStart()[0])               
+             
+        plt.title('Done')
+        plt.pause(1.5)
         plt.title('Viral Model for Beneficial Connections')
         plt.show()
-        print("done")
 
 #Run main 
 def main():
     #do something
-    testV = virus(15, 20, 20)
+    testV = virus(40, 100, 100)
     print('Running Virus. . .')
-    node1 = testV.getNodeByName('Node_A')
     print(testV.getNodeListShort())
-    testV.runVirus(node1, 4)
-    #testV.connectNodes(node1, 4)
-    #print(testV.getNodeListLong())
-    #for each in testV.getNodes():
-    #    print(each.getBranches())
-    #    return
-        
+    testV.runVirus(testV.getRandNode(), 20)    
     testV.plotGraph()
     
 if __name__ == '__main__': #if running virus

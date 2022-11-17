@@ -73,8 +73,8 @@ class node:
 
     #Get the list of branches
     def getBranches(self):
-        for each in self.nodeBranches:
-            print("Branches: " + str(each))
+        #for each in self.nodeBranches:
+            #print("Branches: " + str(each))
         return self.nodeBranches
 
     #Get the health of the node
@@ -120,15 +120,15 @@ class node:
     def nodeDepreciate(self):
         self.nodeHealth = self.nodeHealth * self.getNodeDepreciation()
 
-
     #Add a node to the connected node list; only immediately connected nodes
     def addNode(self, N):
         assert(type(N) is node),"Error: added object is not a node"
         self.nodeList.append(N)
         if (((self.getNodeName(), N.getNodeName())) in self.nodeBranchTuples) or (((N.getNodeName(),self.getNodeName())) in self.nodeBranchTuples):
+            #print("-"*10 + "Tuple in branch list")
             return
         else:
-            print("Adding branch between " + N.getNodeName() + " & " + self.getNodeName())
+            #print("Adding branch between " + N.getNodeName() + " & " + self.getNodeName())
             self.nodeBranches.append(br.branch(self,N))
             self.nodeBranchTuples.append(((self.getNodeName(), N.getNodeName())))
     
