@@ -214,7 +214,7 @@ class virus:
             out += '\n'
         return out
     '''
-    def plotGraph(self):
+    def plotGraph(self, wait):
         plt.title('Drawing virus . . .')
         plt.rcParams["figure.figsize"] = [30, 30]
         plt.rcParams["figure.autolayout"] = True
@@ -226,11 +226,11 @@ class virus:
         plt.ylim(0,self.getMaxY()-1)
         plt.plot(x_values, y_values, 'bo')
         for each in self.getNodes():
-            plt.text(each.getX()-0.015, each.getY()-0.5, each.getNodeName())   
-            #plt.text(each.getX()-0.015, each.getY()-0.5, each.getNodeName() + ' BCE: ' + str(round(each.getBCE(),3)))             
+            #plt.text(each.getX()-0.015, each.getY()-0.5, each.getNodeName())   
+            plt.text(each.getX()-0.015, each.getY()-0.5, each.getNodeName() + ' BCE: ' + str(round(each.getBCE(),3)))             
         for branch in self.getVirusBranches():
             #print("Plotting Branch: " + str(branch))
-            plt.pause(.3)
+            plt.pause(wait)
             #plt.text(branch.getStart()[0]+1, branch.getStart()[1]+1, str('Dist: ' + str(round(branch.getLen()),2)))
             plt.plot([branch.getStart()[0],branch.getEnd()[0]],[branch.getStart()[1],branch.getEnd()[1]], 'ro', linestyle="--")
             #print(branch.getStart()[0])               
@@ -244,10 +244,11 @@ class virus:
 def main():
     #do something
     testV = virus(40, 100, 100)
+    testV.setBCELimit(0.5)
     print('Running Virus. . .')
     print(testV.getNodeListShort())
-    testV.runVirus(testV.getRandNode(), 20)    
-    testV.plotGraph()
+    testV.runVirus(testV.getRandNode(), 33)    
+    testV.plotGraph(0.1)
     
 if __name__ == '__main__': #if running virus
     main()
