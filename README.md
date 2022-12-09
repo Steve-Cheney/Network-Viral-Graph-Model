@@ -1,4 +1,4 @@
-# Network-Viral-Graph-Model
+# Network Viral Graph Model
 
 #### A viral model for depicting network connectivity.
 
